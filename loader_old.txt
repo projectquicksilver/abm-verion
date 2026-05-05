@@ -1,0 +1,2 @@
+"import React, { useEffect } from 'react';\nimport { motion } from 'framer-motion';\nimport './screens.css';\n\nexport default function LoaderScreen({ employee, onNext }) {\n  const firstName = employee?.name?.split(' ')[0] ?? 'Explorer';\n\n  useEffect(()
+<truncated 3056 bytes>
