@@ -1,0 +1,354 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Menu, Star, Crown, Clock, Compass } from 'lucide-react';
+import './WelcomeScreen.css';
+import venetianImg from '../assets/destinations/venetian.png';
+import kowloonImg from '../assets/destinations/kowloon.png';
+import oceanParkImg from '../assets/destinations/oceanpark.png';
+import victoriaPeakImg from '../assets/destinations/victoria_peak.png';
+
+const carouselData = [
+  {
+    id: 'hk',
+    image: kowloonImg,
+    leftTitle: "ABM 2026 SUMMIT",
+    leftSubtitle: "Macau & Hong Kong",
+    leftDesc: "8–14 May 2026. A journey of strategic growth, innovation, and extraordinary experiences.",
+    rightTitle: "Choose your path to acceleration –",
+    rightSubtitle: "we'll handle the logistics.",
+    rightDesc: "Our dedicated summit team ensures every detail is tailored for your success, whether you're networking or exploring."
+  },
+  {
+    id: 'venetian',
+    image: venetianImg,
+    leftTitle: "THE VENETIAN",
+    leftSubtitle: "Grand Gala",
+    leftDesc: "Experience a night of absolute prestige and celebration at the Venetian Grand Ball Room.",
+    rightTitle: "Immerse in luxury –",
+    rightSubtitle: "we curate the experience.",
+    rightDesc: "From five-star hospitality to world-class entertainment, every moment is designed to inspire."
+  },
+  {
+    id: 'ocean',
+    image: oceanParkImg,
+    leftTitle: "OCEAN PARK",
+    leftSubtitle: "Thrills Await",
+    leftDesc: "Connect with nature, embrace the thrill of the rides, and enjoy a spectacular fireworks show.",
+    rightTitle: "Unleash the adventure –",
+    rightSubtitle: "we secure the access.",
+    rightDesc: "A world-class experience blending breathtaking scenery with unforgettable team-building moments."
+  },
+  {
+    id: 'peak',
+    image: victoriaPeakImg,
+    leftTitle: "VICTORIA PEAK",
+    leftSubtitle: "The Summit View",
+    leftDesc: "Witness the iconic skyline after an exhilarating high-speed ferry crossing.",
+    rightTitle: "Elevate your perspective –",
+    rightSubtitle: "we elevate the journey.",
+    rightDesc: "Stand at the pinnacle of Asia's world city, where strategic vision meets breathtaking altitude."
+  }
+];
+
+const slideVariants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 1.05
+  }),
+  center: {
+    zIndex: 1,
+    x: 0,
+    opacity: 1,
+    scale: 1
+  },
+  exit: (direction) => ({
+    zIndex: 0,
+    x: direction < 0 ? 1000 : -1000,
+    opacity: 0,
+    scale: 0.95
+  })
+};
+
+const textVariants = {
+  enter: { y: 20, opacity: 0 },
+  center: { y: 0, opacity: 1 },
+  exit: { y: -20, opacity: 0 }
+};
+
+const GifTransition = () => (
+  <div className="gif-transition-overlay" key="gif-overlay">
+    <img 
+      src="/stars_anime.gif" 
+      className="gif-asset" 
+      alt="Transitioning..."
+    />
+  </div>
+);
+
+const galaImages = [venetianImg, victoriaPeakImg, kowloonImg];
+
+const WelcomeScreen = ({ onNext }) => {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [[page, direction], setPage] = useState([0, 1]);
+  const [[galaPage, galaDirection], setGalaPage] = useState([0, 1]);
+
+  const currentImageIndex = Math.abs(page % carouselData.length);
+  const currentData = carouselData[currentImageIndex];
+  const currentGalaIndex = Math.abs(galaPage % galaImages.length);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPage([page + 1, 1]);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [page]);
+
+  useEffect(() => {
+    const galaInterval = setInterval(() => {
+      setGalaPage([galaPage + 1, 1]);
+    }, 4000);
+    return () => clearInterval(galaInterval);
+  }, [galaPage]);
+
+  const handleRegister = () => {
+    if (isTransitioning) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      onNext();
+    }, 5000); 
+  };
+
+  const handleDotClick = (index) => {
+    if (index > currentImageIndex) {
+      setPage([index, 1]);
+    } else if (index < currentImageIndex) {
+      setPage([index, -1]);
+    }
+  };
+
+  return (
+    <div className={`welcome-screen ${isTransitioning ? 'pointer-events-none' : ''}`}>
+      <AnimatePresence>
+        {isTransitioning && <GifTransition />}
+      </AnimatePresence>
+
+      {/* --- HERO SECTION --- */}
+      <section className="hero-section">
+        <div className="carousel-container">
+          <AnimatePresence initial={false} custom={direction}>
+            <motion.img
+              key={page}
+              src={currentData.image}
+              custom={direction}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: "spring", stiffness: 300, damping: 30 },
+                opacity: { duration: 0.4 },
+                scale: { duration: 0.6 }
+              }}
+              className="carousel-image"
+              alt="Destination"
+            />
+          </AnimatePresence>
+          <div className="carousel-overlay"></div>
+        </div>
+
+        {/* --- TOP NAVIGATION --- */}
+        <header className="top-nav">
+          <div className="nav-logo">
+            <img src="/coro-logo-original.svg" alt="Coromandel Logo" />
+          </div>
+          <nav className="nav-links glass-strip-nav">
+            <a href="#">OVERVIEW</a>
+            <a href="#">EXPERIENCES</a>
+          </nav>
+          <div className="nav-actions">
+            <div className="lang-selector">
+              Eng
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '4px' }}>
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </div>
+            <button className="menu-btn"><Menu size={24} /></button>
+          </div>
+        </header>
+
+        {/* --- GIANT TYPOGRAPHY & CTA --- */}
+        <div className="hero-center-text">
+          <h1 className="modern-shimmer-title">
+            <span className="line-one">CONSOLIDATE</span><br />
+            <span className="line-two">TO <span className="shimmer-text">ACCELERATE</span></span>
+          </h1>
+        </div>
+
+        {/* Action Button positioned lower */}
+        <div className="hero-action-container">
+          <button className="btn-initiate" onClick={handleRegister}>
+            <span className="edge-light"></span>
+            <div className="btn-inner">
+              <span className="btn-text">INITIATE THE EXPERIENCE</span>
+              <div className="btn-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        {/* --- DYNAMIC OVERLAY TEXT BLOCKS --- */}
+        <div className="hero-panels-wrapper">
+          <AnimatePresence mode="wait">
+            <motion.div 
+              className="hero-bottom-left"
+              key={`left-${page}`}
+              variants={textVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="text-block glossy-panel">
+                <h3>{currentData.leftTitle}</h3>
+                <h4>{currentData.leftSubtitle}</h4>
+                <p>{currentData.leftDesc}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+          <AnimatePresence mode="wait">
+            <motion.div 
+              className="hero-bottom-right-text"
+              key={`right-${page}`}
+              variants={textVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ duration: 0.5, delay: 0.3 }}
+            >
+              <div className="text-block glossy-panel right">
+                <h3>{currentData.rightTitle}</h3>
+                <h4>{currentData.rightSubtitle}</h4>
+                <p className="secondary-desc">{currentData.rightDesc}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* --- CAROUSEL POINTERS --- */}
+        <div className="carousel-dots">
+          {carouselData.map((_, idx) => (
+            <button 
+              key={idx} 
+              className={`dot ${idx === currentImageIndex ? 'active' : ''}`}
+              onClick={() => handleDotClick(idx)}
+            />
+          ))}
+        </div>
+      </section>
+
+      {/* --- SVG Gradient Defs --- */}
+      <svg style={{ width: 0, height: 0, position: 'absolute' }} aria-hidden="true" focusable="false">
+        <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f59e0b" />
+          <stop offset="100%" stopColor="#fbbf24" />
+        </linearGradient>
+      </svg>
+
+      {/* --- PROFESSIONAL SUMMIT SECTION --- */}
+      <section className="professional-summit-section">
+        <div className="summit-intro">
+          <h2>SUMMIT OVERVIEW</h2>
+          <p>An elite, high-performance schedule meticulously crafted for Coromandel leadership.</p>
+        </div>
+        
+        <div className="summit-stats-row">
+          <div className="s-stat">
+            <span className="s-num">5</span>
+            <div className="s-details">
+              <span className="s-title">Days</span>
+              <span className="s-sub">Programme</span>
+            </div>
+          </div>
+          <div className="s-line"></div>
+          <div className="s-stat">
+            <span className="s-num">2</span>
+            <div className="s-details">
+              <span className="s-title">Cities</span>
+              <span className="s-sub">HK + Macau</span>
+            </div>
+          </div>
+          <div className="s-line"></div>
+          <div className="s-stat">
+            <span className="s-num">2</span>
+            <div className="s-details">
+              <span className="s-title">Groups</span>
+              <span className="s-sub">Batches</span>
+            </div>
+          </div>
+          <div className="s-line"></div>
+          <div className="s-stat">
+            <span className="s-num star-icon-container">
+              <Star size={44} fill="url(#gold-grad)" stroke="none" />
+            </span>
+            <div className="s-details">
+              <span className="s-title">5 Star</span>
+              <span className="s-sub">Hospitality</span>
+            </div>
+          </div>
+        </div>
+
+        <div className="summit-features-grid">
+          {/* Left Column: Mini Carousel */}
+          <div className="mini-carousel-container">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={`gala-${galaPage}`}
+                src={galaImages[currentGalaIndex]}
+                initial={{ opacity: 0, scale: 1.05 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.8 }}
+                className="mini-carousel-img"
+                alt="Venetian Gala"
+              />
+            </AnimatePresence>
+            <div className="mini-carousel-caption">
+              <div className="ed-icon prof-gold mini-icon"><Crown size={32} /></div>
+              <div className="mini-caption-text">
+                <h3>Venetian Gala</h3>
+                <p>A night of prestige and celebration at the Venetian Grand Ball Room.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Column: Feature Boxes */}
+          <div className="features-right-column">
+            <div className="feature-box">
+              <div className="f-box-icon prof-blue"><Clock size={40} /></div>
+              <div className="f-box-text">
+                <h3>70+ Hours</h3>
+                <p>Curated experiences from Ocean Park to the Diamond Show.</p>
+              </div>
+            </div>
+
+            <div className="feature-box">
+              <div className="f-box-icon prof-silver"><Compass size={40} /></div>
+              <div className="f-box-text">
+                <h3>6+ Sites</h3>
+                <p>Journey through landmarks of global innovation.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default WelcomeScreen;
