@@ -1,0 +1,366 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Oswald:wght@500;700&display=swap');
+
+/* ── Root Screen ─────────────────────────────────── */
+.aw-screen {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #030712;
+  color: #fff;
+  font-family: 'Sora', sans-serif;
+  z-index: 4000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* ── Ambient Background ─────────────────────────── */
+.aw-bg-stars {
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.3) 0, transparent 0),
+    radial-gradient(1px 1px at 30% 55%, rgba(255,255,255,0.2) 0, transparent 0),
+    radial-gradient(1px 1px at 50% 25%, rgba(255,255,255,0.25) 0, transparent 0),
+    radial-gradient(1px 1px at 70% 75%, rgba(255,255,255,0.2) 0, transparent 0),
+    radial-gradient(1px 1px at 85% 40%, rgba(255,255,255,0.3) 0, transparent 0),
+    radial-gradient(1px 1px at 20% 85%, rgba(255,255,255,0.15) 0, transparent 0),
+    radial-gradient(1px 1px at 95% 90%, rgba(255,255,255,0.2) 0, transparent 0);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.aw-bg-orb {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(100px);
+  pointer-events: none;
+  z-index: 0;
+}
+.aw-orb1 {
+  width: 600px; height: 600px;
+  top: -200px; left: -200px;
+  background: rgba(245, 158, 11, 0.08);
+  animation: orbFloat 20s ease-in-out infinite alternate;
+}
+.aw-orb2 {
+  width: 500px; height: 500px;
+  bottom: -150px; right: -150px;
+  background: rgba(168, 85, 247, 0.08);
+  animation: orbFloat 25s ease-in-out infinite alternate-reverse;
+}
+.aw-orb3 {
+  width: 400px; height: 400px;
+  top: 40%; left: 40%;
+  background: rgba(6, 182, 212, 0.06);
+  animation: orbFloat 18s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, 40px) scale(1.1); }
+}
+
+/* ── Header ─────────────────────────────────────── */
+.aw-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 40px 30px;
+  gap: 10px;
+}
+
+.aw-back-btn {
+  position: absolute;
+  left: 40px;
+  top: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.aw-back-btn:hover {
+  background: rgba(245,158,11,0.15);
+  border-color: rgba(245,158,11,0.5);
+  color: #f59e0b;
+  transform: translateY(-2px);
+}
+
+.aw-header-center {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.aw-trophy-icon {
+  color: #f59e0b;
+  filter: drop-shadow(0 0 12px rgba(245,158,11,0.8));
+  animation: trophyPulse 3s ease-in-out infinite alternate;
+}
+
+@keyframes trophyPulse {
+  from { filter: drop-shadow(0 0 8px rgba(245,158,11,0.6)); transform: scale(1); }
+  to   { filter: drop-shadow(0 0 24px rgba(245,158,11,1)); transform: scale(1.08); }
+}
+
+.aw-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  font-weight: 700;
+  letter-spacing: 12px;
+  margin: 0;
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 30%, #fff 60%, #f59e0b 80%, #fbbf24 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: goldShimmer 4s linear infinite;
+  filter: drop-shadow(0 0 30px rgba(245,158,11,0.4));
+  text-transform: uppercase;
+}
+
+@keyframes goldShimmer {
+  to { background-position: 200% center; }
+}
+
+.aw-subtitle {
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.4);
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* ── Filter Row ──────────────────────────────────── */
+.aw-filter-row {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 10px 40px 20px;
+}
+
+.aw-filter-pill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 28px;
+  border-radius: 100px;
+  border: 1px solid;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  animation: pillBreathe 3s ease-in-out infinite alternate;
+  transition:
+    transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    background 0.3s ease;
+}
+
+.aw-filter-pill:nth-child(1) { animation-delay: 0s; }
+.aw-filter-pill:nth-child(2) { animation-delay: 0.4s; }
+.aw-filter-pill:nth-child(3) { animation-delay: 0.8s; }
+.aw-filter-pill:nth-child(4) { animation-delay: 1.2s; }
+.aw-filter-pill:nth-child(5) { animation-delay: 1.6s; }
+.aw-filter-pill:nth-child(6) { animation-delay: 2.0s; }
+
+@keyframes pillBreathe {
+  0%   { transform: translateY(0px) scale(1);     box-shadow: 0 0 0px rgba(255,255,255,0); }
+  100% { transform: translateY(-3px) scale(1.03); box-shadow: 0 8px 20px rgba(255,255,255,0.06); }
+}
+
+/* Shimmer sweep across idle pill */
+.aw-filter-pill::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+  animation: pillShimmer 2.5s ease-in-out infinite;
+  pointer-events: none;
+}
+.aw-filter-pill:nth-child(1)::before { animation-delay: 0s; }
+.aw-filter-pill:nth-child(2)::before { animation-delay: 0.5s; }
+.aw-filter-pill:nth-child(3)::before { animation-delay: 1.0s; }
+.aw-filter-pill:nth-child(4)::before { animation-delay: 1.5s; }
+.aw-filter-pill:nth-child(5)::before { animation-delay: 2.0s; }
+.aw-filter-pill:nth-child(6)::before { animation-delay: 2.5s; }
+
+@keyframes pillShimmer {
+  0%   { left: -60%; }
+  60%  { left: 120%; }
+  100% { left: 120%; }
+}
+
+/* Hover: stop idle breathing, lift confidently */
+.aw-filter-pill:hover {
+  transform: translateY(-6px) scale(1.08) !important;
+  animation: none;
+}
+
+/* Press feedback */
+.aw-filter-pill:active {
+  transform: scale(0.93) translateY(0px) !important;
+  transition: transform 0.08s ease !important;
+}
+
+/* Selected state: calm, locked in */
+.aw-filter-pill.active {
+  animation: none;
+  transform: translateY(-3px) scale(1.05);
+}
+.aw-filter-pill.active::before {
+  animation: none;
+  background: none;
+}
+
+
+
+/* ── Count badge ─────────────────────────────────── */
+.aw-count-badge {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  opacity: 0.8;
+}
+
+/* ── Awards Grid ─────────────────────────────────── */
+.aw-grid {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  padding: 20px 50px 80px;
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ── Award Card ──────────────────────────────────── */
+.aw-card {
+  position: relative;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: hidden;
+  cursor: default;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+.aw-card.highlighted {
+  background: rgba(255,255,255,0.05);
+}
+
+.aw-card.dimmed {
+  pointer-events: none;
+}
+
+/* Glowing sweep animation on highlighted cards */
+.aw-card-sweep {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    color-mix(in srgb, var(--sweep-color) 15%, transparent) 50%,
+    transparent 70%
+  );
+  background-size: 200% 100%;
+  animation: cardSweep 3s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes cardSweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Card top row */
+.aw-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.aw-card-bu-badge {
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 100px;
+  border: 1px solid;
+}
+
+.aw-card-star {
+  font-size: 1.2rem;
+  color: #f59e0b;
+  filter: drop-shadow(0 0 8px rgba(245,158,11,0.8));
+  animation: starSpin 4s linear infinite;
+}
+
+@keyframes starSpin {
+  0%, 100% { transform: scale(1) rotate(0deg);   filter: drop-shadow(0 0 8px rgba(245,158,11,0.8)); }
+  25%       { transform: scale(1.2) rotate(15deg); filter: drop-shadow(0 0 18px rgba(245,158,11,1)); }
+  75%       { transform: scale(1.1) rotate(-10deg); }
+}
+
+/* Card category text */
+.aw-card-category {
+  font-family: 'Sora', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0;
+  position: relative;
+  z-index: 1;
+  transition: color 0.4s ease;
+}
+
+/* ── Responsive ──────────────────────────────────── */
+@media (max-width: 768px) {
+  .aw-header { padding: 40px 20px 20px; }
+  .aw-back-btn { position: relative; top: 0; left: 0; margin-bottom: 10px; }
+  .aw-header { align-items: flex-start; }
+  .aw-header-center { align-self: center; }
+  .aw-title { font-size: 3rem; }
+  .aw-filter-row { padding: 10px 20px 20px; }
+  .aw-grid { padding: 20px 20px 60px; grid-template-columns: 1fr; }
+}

@@ -5,6 +5,7 @@ import './WelcomeScreen.css';
 import SoonModal from '../components/SoonModal';
 import BatchesScreen from './BatchesScreen';
 import CommitteeScreen from './CommitteeScreen';
+import AwardsScreen from './AwardsScreen';
 import venetianImg from '../assets/destinations/venetian.png';
 import kowloonImg from '../assets/destinations/kowloon.png';
 import oceanParkImg from '../assets/destinations/oceanpark.png';
@@ -216,6 +217,7 @@ const WelcomeScreen = ({ onNext }) => {
   const [[galaPage, galaDirection], setGalaPage] = useState([0, 1]);
   const [soonModal, setSoonModal] = useState({ isOpen: false, title: '' });
   const [showCommittee, setShowCommittee] = useState(false);
+  const [showAwards, setShowAwards] = useState(false);
 
   const currentImageIndex = Math.abs(page % carouselData.length);
   const currentData = carouselData[currentImageIndex];
@@ -272,6 +274,10 @@ const WelcomeScreen = ({ onNext }) => {
     }
     if (title === 'Core Committee') {
       setShowCommittee(true);
+      return;
+    }
+    if (title === 'Awards') {
+      setShowAwards(true);
       return;
     }
     setSoonModal({ isOpen: true, title });
@@ -593,6 +599,19 @@ const WelcomeScreen = ({ onNext }) => {
             style={{ position: 'fixed', inset: 0, zIndex: 3000 }}
           >
             <CommitteeScreen onBack={() => setShowCommittee(false)} />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <AnimatePresence>
+        {showAwards && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            style={{ position: 'fixed', inset: 0, zIndex: 3000 }}
+          >
+            <AwardsScreen onBack={() => setShowAwards(false)} />
           </motion.div>
         )}
       </AnimatePresence>
