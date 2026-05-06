@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;800&family=Oswald:wght@500;700&display=swap');
+
+.v-committee-screen {
+  position: absolute;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #f8fafc; /* Clean very light background */
+  color: #0f172a;
+  font-family: 'Sora', sans-serif;
+  z-index: 4000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+/* Stunning Iridescent Mesh Background */
+.v-bg-mesh {
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(at 20% 20%, rgba(45, 212, 191, 0.25) 0px, transparent 60%), /* Teal */
+    radial-gradient(at 80% 20%, rgba(244, 114, 182, 0.25) 0px, transparent 60%), /* Pink */
+    radial-gradient(at 50% 80%, rgba(139, 92, 246, 0.25) 0px, transparent 60%), /* Violet */
+    radial-gradient(at 80% 80%, rgba(250, 204, 21, 0.2) 0px, transparent 60%); /* Yellow flare */
+  z-index: 0;
+  pointer-events: none;
+  animation: holoBreathe 15s ease-in-out infinite alternate;
+}
+
+.v-bg-flare {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 20%, rgba(255,255,255,0.6) 50%, transparent 80%);
+  background-size: 200% 200%;
+  animation: flareSweep 10s linear infinite;
+  z-index: 0;
+  pointer-events: none;
+}
+
+@keyframes holoBreathe {
+  0% { transform: scale(1) rotate(0deg); }
+  100% { transform: scale(1.1) rotate(2deg); }
+}
+
+@keyframes flareSweep {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Header */
+.v-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+  gap: 20px;
+}
+
+.v-back-btn {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  cursor: pointer;
+  color: #4c1d95;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.v-back-btn:hover {
+  background: #fff;
+  color: #ec4899;
+  border-color: #ec4899;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(236, 72, 153, 0.15);
+}
+
+.v-title {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  letter-spacing: 8px;
+  text-transform: uppercase;
+  margin: 0;
+  background: linear-gradient(to right, #4c1d95, #db2777, #0d9488);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 4px 30px rgba(255,255,255,0.8);
+  text-align: center;
+}
+
+/* Grid Container - Now wider for STRIPS */
+.v-grid-container {
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Wide strips */
+  gap: 30px;
+  padding: 20px 60px 80px;
+  max-width: 1500px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* The Strip Wrapper (Gradient Border) */
+.v-strip-wrapper {
+  position: relative;
+  height: 90px; /* Thin horizontal strip */
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.5), rgba(139, 92, 246, 0.5), rgba(244, 114, 182, 0.5));
+  padding: 2px; /* Border thickness */
+  /* Sleek opposite-corner chamfer */
+  clip-path: polygon(
+    20px 0, 
+    100% 0, 
+    100% calc(100% - 20px), 
+    calc(100% - 20px) 100%, 
+    0 100%, 
+    0 20px
+  );
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  cursor: pointer;
+  filter: drop-shadow(0 10px 15px rgba(0,0,0,0.03));
+}
+
+.v-strip-wrapper:hover {
+  transform: translateY(-5px) scale(1.02);
+  background: linear-gradient(135deg, #2dd4bf, #8b5cf6, #ec4899);
+  filter: drop-shadow(0 15px 25px rgba(139, 92, 246, 0.2));
+}
+
+/* The Inner Strip */
+.v-strip {
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  clip-path: polygon(
+    19px 0, 
+    100% 0, 
+    100% calc(100% - 19px), 
+    calc(100% - 19px) 100%, 
+    0 100%, 
+    0 19px
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease;
+}
+
+.v-strip-wrapper:hover .v-strip {
+  background: rgba(255, 255, 255, 0.98);
+}
+
+/* Minimalist Tech Accents on the Strips */
+.v-strip-accent {
+  position: absolute;
+  width: 30px;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(139, 92, 246, 0.05), transparent);
+  transition: all 0.4s ease;
+}
+
+.v-accent-left {
+  left: 0;
+  border-right: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.v-accent-right {
+  right: 0;
+  border-left: 1px solid rgba(139, 92, 246, 0.1);
+}
+
+.v-strip-wrapper:hover .v-accent-left {
+  background: rgba(45, 212, 191, 0.15);
+  border-color: rgba(45, 212, 191, 0.5);
+}
+
+.v-strip-wrapper:hover .v-accent-right {
+  background: rgba(236, 72, 153, 0.15);
+  border-color: rgba(236, 72, 153, 0.5);
+}
+
+/* Strip Content */
+.v-strip-content {
+  position: relative;
+  z-index: 2;
+  padding: 0 40px;
+  text-align: center;
+  width: 100%;
+}
+
+.v-strip-name {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  margin: 0;
+  transition: all 0.4s ease;
+}
+
+.v-strip-wrapper:hover .v-strip-name {
+  color: #7c3aed; /* Deep violet on hover */
+  text-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+  letter-spacing: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .v-header {
+    padding: 30px 20px;
+  }
+  .v-back-btn {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin-bottom: 10px;
+  }
+  .v-grid-container {
+    padding: 20px 30px 60px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+  .v-strip-wrapper {
+    height: 80px;
+  }
+  .v-strip-name {
+    font-size: 1.3rem;
+  }
+}

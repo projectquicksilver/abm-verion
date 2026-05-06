@@ -26,18 +26,29 @@ export default function BungeeJumpQuestion({
         borderRadius: 26, overflow: 'hidden',
         border: '1px solid rgba(255,255,255,0.15)',
         boxShadow: '0 24px 70px rgba(0,0,0,0.8)',
-        background: '#0a0a1a',
+        backgroundColor: '#0a0a1a',
+        backgroundImage: "url('/bg-macao.png')",
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
         marginBottom: 16,
       }}>
-        {/* Background Skyline (Blurry distance) */}
-        {/* Animation overlays removed per user request */}
+        {/* Dark Vignette Overlay for depth */}
+        <div style={{
+          position: 'absolute', inset: 0,
+          background: 'radial-gradient(circle at center, transparent 30%, rgba(0,0,0,0.6) 100%)',
+          pointerEvents: 'none'
+        }} />
 
         {/* Height Meter */}
-        <div style={{
-          position: 'absolute', left: 20, top: '40%', zIndex: 30,
-          padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', border: '1px solid #FACC15',
-          display: 'flex', alignItems: 'center', gap: 6, color: '#FACC15'
-        }}>
+        <div 
+          style={{
+            position: 'absolute', left: 20, top: '40%', zIndex: 30,
+            padding: '4px 10px', borderRadius: 8, background: 'rgba(0,0,0,0.6)', border: '1px solid #FACC15',
+            display: 'flex', alignItems: 'center', gap: 6, color: '#FACC15',
+            boxShadow: '0 4px 15px rgba(250, 204, 21, 0.3)',
+            backdropFilter: 'blur(4px)'
+          }}
+        >
           <Wind size={14} /> <span style={{ fontFamily: 'var(--font-mono)', fontSize: 10, fontWeight: 700 }}>233m EDGE</span>
         </div>
       </div>
