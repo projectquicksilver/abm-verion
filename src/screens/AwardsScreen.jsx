@@ -104,10 +104,7 @@ export default function AwardsScreen({ onBack }) {
   const [selectedBU, setSelectedBU] = useState(null);
 
   const sortedAwards = selectedBU
-    ? [
-        ...AWARDS_DATA.filter(a => a.bu === selectedBU),
-        ...AWARDS_DATA.filter(a => a.bu !== selectedBU),
-      ]
+    ? AWARDS_DATA.filter(a => a.bu === selectedBU)
     : AWARDS_DATA;
 
   const handleBUClick = (bu) => {
@@ -167,25 +164,11 @@ export default function AwardsScreen({ onBack }) {
         })}
       </div>
 
-      {/* Count badge */}
-      <AnimatePresence>
-        {selectedBU && (
-          <motion.div
-            className="aw-count-badge"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            style={{ color: BU_CONFIG[selectedBU].color }}
-          >
-            {AWARDS_DATA.filter(a => a.bu === selectedBU).length} awards highlighted
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Awards Grid */}
       <LayoutGroup>
         <div className="aw-grid">
-          {sortedAwards.map((award, index) => {
+          {sortedAwards.map((award) => {
             const isHighlighted = selectedBU && award.bu === selectedBU;
             const isDimmed = selectedBU && award.bu !== selectedBU;
             const cfg = BU_CONFIG[award.bu];

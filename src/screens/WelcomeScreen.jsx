@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, Star, Crown, Clock, Compass } from 'lucide-react';
+import { Menu, Star, Crown, Clock, Compass, X } from 'lucide-react';
 import './WelcomeScreen.css';
 import SoonModal from '../components/SoonModal';
 import BatchesScreen from './BatchesScreen';
@@ -327,34 +327,72 @@ const WelcomeScreen = ({ onNext }) => {
             <button className="nav-btn-link" onClick={() => handleSoonClick('Core Committee')}>COMMITTEE</button>
             <button className="nav-btn-link" onClick={() => handleSoonClick('Photos')}>PHOTOS</button>
           </nav>
-          <div className="nav-actions">
-            <button className="menu-btn" onClick={handleMenuToggle}><Menu size={24} /></button>
+          
+          <div className="nav-actions mobile-only">
+            <button className="summit-menu-trigger" onClick={handleMenuToggle}>
+              <Menu size={24} />
+            </button>
           </div>
 
-          {/* Mobile Dropdown Menu */}
+          
+          {/* Immersive Mobile Menu Overlay */}
           <AnimatePresence>
             {isMobileMenuOpen && (
               <motion.div
-                className="mobile-dropdown-menu"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                transition={{ duration: 0.2 }}
+                className="mobile-immersive-menu"
+                initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                animate={{ opacity: 1, backdropFilter: 'blur(20px)' }}
+                exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+                transition={{ duration: 0.4 }}
               >
-                <button className="mobile-nav-btn" onClick={(e) => scrollToSection(e, 'overview')}>OVERVIEW</button>
-                <button className="mobile-nav-btn" onClick={(e) => scrollToSection(e, 'experiences')}>EXPERIENCES</button>
-                <button className="mobile-nav-btn" onClick={() => handleSoonClick('Awards')}>AWARDS</button>
-                <button className="mobile-nav-btn" onClick={() => handleSoonClick('Gallery')}>GALLERY</button>
-                <button className="mobile-nav-btn" onClick={() => handleSoonClick('Batches')}>BATCHES</button>
-                <button className="mobile-nav-btn" onClick={() => handleSoonClick('Core Committee')}>COMMITTEE</button>
-                <button className="mobile-nav-btn" onClick={() => handleSoonClick('Photos')}>PHOTOS</button>
+                <div className="mobile-menu-bg-aurora" />
+                <button className="mobile-menu-close" onClick={() => setIsMobileMenuOpen(false)}>
+                  <X size={32} />
+                </button>
+                
+                <nav className="mobile-nav-container">
+                  {[
+                    { label: 'OVERVIEW', id: 'overview' },
+                    { label: 'EXPERIENCES', id: 'experiences' },
+                    { label: 'AWARDS', type: 'Awards' },
+                    { label: 'GALLERY', type: 'Gallery' },
+                    { label: 'BATCHES', type: 'Batches' },
+                    { label: 'COMMITTEE', type: 'Core Committee' },
+                    { label: 'PHOTOS', type: 'Photos' }
+                  ].map((item, idx) => (
+                    <motion.button
+                      key={item.label}
+                      className="mobile-nav-item"
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + idx * 0.05, duration: 0.4 }}
+                      onClick={(e) => {
+                        setIsMobileMenuOpen(false);
+                        item.id ? scrollToSection(e, item.id) : handleSoonClick(item.type);
+                      }}
+                    >
+                      <span className="item-number">0{idx + 1}</span>
+                      <span className="item-label">{item.label}</span>
+                      <div className="item-underline" />
+                    </motion.button>
+                  ))}
+                </nav>
+
+                <div className="mobile-menu-footer">
+                  <p>ABM 2026 · MACAU & HONG KONG</p>
+                </div>
               </motion.div>
             )}
           </AnimatePresence>
+
         </header>
 
-        {/* --- GIANT TYPOGRAPHY & CTA --- */}
+        {/* --- GIANT TYPOGRAPHY --- */}
         <div className="hero-center-text">
+          <div className="hero-main-image-container">
+            <img src="/hk_macao_logo_ms.png" className="hero-main-summit-image" alt="Summit Theme" />
+          </div>
+
           <div className="hero-title-container">
             <div className="tree-unit-container">
               <img src="/tree-logo.png" className="hero-side-logo" alt="Growth Tree Logo" />
@@ -365,33 +403,8 @@ const WelcomeScreen = ({ onNext }) => {
               <span className="line-two">TO <span className="shimmer-text">ACCELERATE</span></span>
             </h1>
           </div>
-          <motion.div
-            className="hero-destination-subtitle"
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          >
-            <span className="dest-text shimmer-text">HONGKONG</span>
-            <span className="dest-dot"></span>
-            <span className="dest-text shimmer-text">MACAO</span>
-          </motion.div>
+          
           <CountdownTimer />
-
-          {/* Action Button automatically positioned relative to content */}
-          <div className="hero-action-container-relative">
-            <button className="btn-initiate" onClick={handleRegister}>
-              <span className="edge-light"></span>
-              <div className="btn-inner">
-                <span className="btn-text">Participate Now and Win</span>
-                <div className="btn-arrow">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </div>
-              </div>
-            </button>
-          </div>
         </div>
 
         {/* --- DYNAMIC OVERLAY TEXT BLOCKS --- */}
@@ -615,6 +628,7 @@ const WelcomeScreen = ({ onNext }) => {
           </motion.div>
         )}
       </AnimatePresence>
+
     </div>
   );
 };

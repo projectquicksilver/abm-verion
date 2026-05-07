@@ -156,11 +156,7 @@ export default function CommitteeScreen({ onBack }) {
                     <span className="cm-tick cm-tick-br" />
                   </div>
 
-                  {/* Info */}
                   <div className="cm-card-info">
-                    <span className="cm-card-num" style={{ color: ac }}>
-                      {String(i + 1).padStart(2, '0')}
-                    </span>
                     <h3 className="cm-card-name">{m.name}</h3>
                   </div>
                 </div>
@@ -244,21 +240,16 @@ export default function CommitteeScreen({ onBack }) {
                 {/* Ornate outer border */}
                 <div className="cm-pc-outer-border" style={{ borderColor: `${accent}33` }} />
 
-                {/* Corner ornaments */}
                 <div className="cm-pc-corner cm-pc-tl" style={{ color: accent }}>
-                  <span className="cm-pc-num">{String(selected + 1).padStart(2, '0')}</span>
                   <span className="cm-pc-suit">◆</span>
                 </div>
                 <div className="cm-pc-corner cm-pc-tr" style={{ color: accent }}>
-                  <span className="cm-pc-num">{String(selected + 1).padStart(2, '0')}</span>
                   <span className="cm-pc-suit">◆</span>
                 </div>
                 <div className="cm-pc-corner cm-pc-bl" style={{ color: accent, transform: 'rotate(180deg)' }}>
-                  <span className="cm-pc-num">{String(selected + 1).padStart(2, '0')}</span>
                   <span className="cm-pc-suit">◆</span>
                 </div>
                 <div className="cm-pc-corner cm-pc-br" style={{ color: accent, transform: 'rotate(180deg)' }}>
-                  <span className="cm-pc-num">{String(selected + 1).padStart(2, '0')}</span>
                   <span className="cm-pc-suit">◆</span>
                 </div>
 
